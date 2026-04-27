@@ -1,0 +1,97 @@
+ <div class="battle-page" *ngIf="hero && monster">
+
+  <div class="hud">
+    <div class="hud-side">
+      <div class="hp-bar">
+        <div
+          class="hp-fill"
+          [ngClass]="getHpClass(hero)"
+          [style.width.%]="(hero.hp / hero.maxHp) * 100"
+        ></div>
+      </div>
+      <div class="hp-text left">
+        {{ hero.hp }} / {{ hero.maxHp }}
+      </div>
+    </div>
+
+    <div class="hud-side">
+      <div class="hp-bar">
+        <div
+          class="hp-fill"
+          [ngClass]="getHpClass(monster)"
+          [style.width.%]="(monster.hp / monster.maxHp) * 100"
+        ></div>
+      </div>
+      <div class="hp-text right">
+        {{ monster.hp }} / {{ monster.maxHp }}
+      </div>
+    </div>
+  </div>
+
+  <div class="damage-layer">
+    <div
+      *ngFor="let d of damageNumbers"
+      class="damage"
+      [class.hero]="d.x === 'hero'"
+      [class.monster]="d.x === 'monster'"
+    >
+      {{ d.value }}
+    </div>
+  </div>
+
+  <div class="arena">
+    <div class="side hero-side">
+      <img 
+        [src]="hero.sprite" 
+        [class.shake]="shakeHero"
+      />
+      <h2>{{ hero.name }}</h2>
+    </div>
+
+    <div class="side monster-side">
+      <div class="enemy-move" *ngIf="enemyMoveName">
+        {{ enemyMoveName }}
+      </div>
+      <img 
+        [src]="monster.sprite" 
+        [class.shake]="shakeMonster"
+      />
+      <h2>{{ monster.name }}</h2>
+    </div>
+  </div>
+
+  <div
+    class="turn-indicator"
+    [class.hero]="currentTurn === 'hero'"
+    [class.monster]="currentTurn === 'monster'"
+  >
+    {{ currentTurn === 'hero' ? 'YOUR TURN' : 'ENEMY TURN' }}
+  </div>
+
+  <div class="moves">
+    <button *ngFor="let move of hero.moves" (click)="playMove(move)">
+      {{ move.name }}
+    </button>
+  </div>
+
+</div>
+
+<div class="reward-overlay" *ngIf="showReward">
+
+  <div class="reward-popup">
+
+    <h2>VICTORY!</h2>
+
+    <p>You learned a new move:</p>
+
+    <div class="move-card">
+      {{ rewardMove?.name }}
+    </div>
+
+    <button (click)="closeReward()">
+      CONTINUE
+    </button>
+
+  </div>
+
+</div>

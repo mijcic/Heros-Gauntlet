@@ -1,0 +1,131 @@
+<!-- <div class="move-manager">
+
+  <h2>Manage Moves</h2>
+
+  <div class="moves-grid">
+
+    <div
+      class="move-card"
+      *ngFor="let move of learnedMoves"
+      [class.active]="isEquipped(move)"
+      (click)="toggleMove(move)"
+    >
+      {{ move.name }}
+    </div>
+
+  </div>
+
+</div> -->
+
+
+
+
+
+
+
+
+
+<!-- <div class="move-manager">
+
+  <h2 class="title">Move Management</h2>
+
+
+  <div class="equipped-bar">
+    <h3>Equipped</h3>
+
+    <div class="equipped-list">
+      <div class="move-chip" *ngFor="let move of equippedMoves">
+        {{ move.name }}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="moves-panel">
+
+    <h3>Available Moves</h3>
+
+    <div class="moves-grid">
+
+      <div
+        class="move-card"
+        *ngFor="let move of learnedMoves"
+        [class.active]="isEquipped(move)"
+        (click)="toggleMove(move)"
+      >
+        <div class="move-name">{{ move.name }}</div>
+        <div class="move-type">{{ move.type }}</div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <button
+    class="continue-btn"
+    [disabled]="!canContinue()"
+    (click)="goToMap()"
+  >
+    CONTINUE
+  </button>
+
+</div> -->
+
+
+
+
+
+
+<div class="move-manager">
+
+  <div class="content">
+
+    <!-- EQUIPPED -->
+    <div class="section">
+
+      <h3>Equipped Moves</h3>
+
+      <div class="equipped-list">
+        <div class="move-chip" *ngFor="let move of equippedMoves">
+          {{ move.name }}
+        </div>
+      </div>
+
+    </div>
+
+    <!-- AVAILABLE -->
+    <div class="section">
+
+      <h3>Available Moves</h3>
+
+      <div class="moves-grid">
+
+        <button
+          class="move-btn"
+          *ngFor="let move of learnedMoves"
+          [class.active]="isEquipped(move)"
+          (click)="toggleMove(move)"
+        >
+          {{ move.name }}
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- CONTINUE OUTSIDE CARD -->
+  <div class="continue-wrapper">
+
+    <button
+      class="continue-btn"
+      [disabled]="!canContinue()"
+      (click)="goToMap()"
+    >
+      CONTINUE
+    </button>
+
+  </div>
+
+</div>

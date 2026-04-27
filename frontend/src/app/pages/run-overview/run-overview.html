@@ -1,0 +1,51 @@
+<div class="map">
+  <h2>Run Overview</h2>
+
+  
+
+  <div class="monsters">
+    <div
+      class="monster-card"
+      *ngFor="let m of monsters; let i = index"
+      [class.locked]="i > unlockedIndex"
+      (click)="selectMonster(i)"
+    >
+      <img [src]="m.sprite" />
+
+      <div class="lock" *ngIf="i > unlockedIndex">🔒</div>
+
+      <h3>{{ m.name }}</h3>
+
+      <div class="hp">
+        HP: {{ m.hp }}
+      </div>
+    </div>
+  </div>
+
+  <div class="equipped-section">
+
+    <h3>Equipped Moves</h3>
+
+    <div class="moves-row">
+
+      <div 
+        class="move-card"
+        *ngFor="let move of equippedMoves"
+      >
+        <div class="move-name">
+          {{ move.name }}
+        </div>
+
+        <div class="move-type" [class.magic]="move.type === 'magic'">
+          {{ move.type }}
+        </div>
+      </div>
+
+    </div>
+
+    <button class="manage-btn" (click)="openMoveManager()">
+      MANAGE MOVES
+    </button>
+
+  </div>
+</div>

@@ -1,0 +1,301 @@
+.battle-page {
+  height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+
+  justify-content: flex-start;
+  color: white;
+
+  background-image: url('../../../assets/pictures/background.png');
+  background-size: cover;
+  background-position: center;
+}   
+
+.arena {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  height: 70vh;
+  align-items: center;
+
+  flex: 1;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.hp-bar {
+  width: 240px;
+  height: 23px;
+
+  background: rgba(0,0,0,0.6);
+  border-radius: 7px;
+  overflow: hidden;
+}
+
+.hp-fill {
+  height: 100%;
+  transition: width 0.3s ease;
+}
+
+.high-hp { background: #00cc44; }
+.mid-hp { background: #ffb300; }
+.low-hp { background: #e53935; }
+
+.moves {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 80px;
+  flex-shrink: 0;
+}
+
+.moves button {
+  flex: 1;
+  margin: 0 10px;
+
+  padding: 16px;
+  font-size: 18px;
+
+  background: rgba(255,255,255,0.12);
+  color: white;
+  border: none;
+  border-radius: 8px;
+
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+
+.hud {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 20px 80px;
+  flex-shrink: 0;
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.hp-text {
+  width: 240px;
+  margin-top: 6px;
+  font-size: 13px;
+  color: white;
+}
+
+.hp-text.left {
+  text-align: left;
+}
+
+.hp-text.right {
+  text-align: right;
+}
+
+.side:first-child .hp-text {
+  align-self: flex-start;  
+}
+
+.side:last-child .hp-text {
+  align-self: flex-end;    
+}
+
+.side {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.hud-side {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.arena {
+  height: 100vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  align-items: center;
+  justify-items: center;
+}
+
+
+.damage-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.damage {
+  position: absolute;
+  font-size: 28px;
+  font-weight: bold;
+
+  color: #ff3b3b;
+  text-shadow: 0 2px 8px black;
+
+  animation: floatUp 0.8s ease-out forwards;
+}
+
+.damage.hero {
+  left: 25%;
+  bottom: 45%;
+}
+
+.damage.monster {
+  right: 25%;
+  bottom: 45%;
+}
+
+@keyframes floatUp {
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+}
+
+.enemy-move {
+  font-size: 14px;
+  color: #ffcc00;
+
+  margin-bottom: 6px;
+  text-shadow: 0 2px 6px black;
+
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.turn-indicator {
+  text-align: center;
+
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: 2px;
+
+  color: white;
+
+  text-shadow:
+    0 0 8px rgba(255,255,255,0.4),
+    0 2px 10px rgba(0,0,0,0.9);
+
+  padding: 4px 0;
+  flex-shrink: 0;
+}
+ 
+.turn-indicator.hero {
+  color: #4fc3f7;
+}
+
+.turn-indicator.monster {
+  color: #ff5252;
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 3px); }
+  40% { transform: translate(6px, -3px); }
+  60% { transform: translate(-4px, 2px); }
+  80% { transform: translate(4px, -2px); }
+  100% { transform: translate(0, 0); }
+}
+
+.shake {
+  animation: shake 0.3s ease, flash 0.3s ease;
+}
+
+@keyframes flash {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(2); }
+  100% { filter: brightness(1); }
+}
+
+.reward-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(0,0,0,0.7);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  z-index: 1000;
+}
+
+.reward-popup {
+  background: rgba(0,0,0,0.95);
+  padding: 30px 40px;
+
+  border-radius: 12px;
+  text-align: center;
+
+  color: white;
+
+  box-shadow: 0 0 20px rgba(0,0,0,0.8);
+}
+
+.move-card {
+  margin: 20px 0;
+  padding: 15px 25px;
+
+  background: rgba(255,255,255,0.1);
+  border-radius: 8px;
+
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.reward-popup button {
+  padding: 14px 28px;
+
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+
+  border-radius: 6px;
+
+  background: white;
+  color: black;
+
+  border: 2px solid rgba(255,255,255,0.8);
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+
+.reward-popup button:hover {
+  background: #f2f2f2;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 14px rgba(0,0,0,0.6);
+}
+
+.reward-popup button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.5);
+}

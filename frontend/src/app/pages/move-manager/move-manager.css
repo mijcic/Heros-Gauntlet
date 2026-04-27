@@ -1,0 +1,163 @@
+.move-manager {
+  height: 100vh;
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  background-image: url('../../../assets/pictures/background.png');
+  background-size: cover;
+  background-position: center;
+
+  color: white;
+}
+
+.title {
+  font-size: 26px;
+  letter-spacing: 2px;
+
+  text-shadow: 0 2px 10px black;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.equipped-section {
+  text-align: center;
+}
+
+.equipped-list {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.move-chip {
+  padding: 8px 12px;
+
+  background: rgba(255,255,255,0.12);
+  border-radius: 6px;
+
+  font-size: 13px;
+
+  border: 1px solid rgba(255,255,255,0.2);
+
+  box-shadow: 0 0 10px rgba(255,255,255,0.05);
+}
+
+.move-chip.equipped {
+  background: rgba(255,255,255,0.25);
+  border: 1px solid white;
+
+  box-shadow: 0 0 12px rgba(255,255,255,0.4);
+}
+
+.moves-section {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  text-align: center;
+  margin: 20px 0;
+}
+
+.bottom-section {
+  text-align: center;
+}
+
+.content {
+  width: 520px;   /* 🔥 BITNO - NE FULL WIDTH */
+  
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+
+  padding: 18px;
+
+  background: rgba(0,0,0,0.55);
+  border-radius: 14px;
+
+  backdrop-filter: blur(8px);
+
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+}
+
+.moves-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+
+  margin-top: 12px;
+}
+
+.move-btn {
+  width: 100%;
+  padding: 10px;
+
+  background: rgba(255,255,255,0.08); /* slabije nego pre */
+  border: 1px solid rgba(255,255,255,0.15);
+
+  opacity: 0.85;
+
+  color: white;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+
+  text-transform: uppercase;
+  font-weight: 600;
+
+  transition: 0.2s;
+}
+
+.move-btn:hover {
+  background: rgba(255,255,255,0.18);
+
+  transform: translateY(-2px);
+
+  opacity: 1;
+}
+
+.move-btn.active {
+  border: 2px solid white;
+
+  background: rgba(255,255,255,0.25);
+
+  transform: scale(1.03);
+
+  box-shadow:
+    0 0 10px rgba(255,255,255,0.4),
+    0 0 20px rgba(255,255,255,0.1);
+}
+
+.continue-wrapper {
+  margin-top: 20px;
+}
+
+.continue-btn {
+  padding: 12px 30px;
+
+  background: white;
+  color: black;
+
+  border-radius: 6px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.continue-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
