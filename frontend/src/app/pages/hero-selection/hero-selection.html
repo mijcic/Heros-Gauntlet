@@ -1,0 +1,57 @@
+<app-back-button to="/"></app-back-button>
+
+<div class="hero-selection">
+  <h1>CHOOSE YOUR HERO</h1>
+  <p class="subtitle">Each hero has unique stats, moves, and growth path</p>
+
+  <div class="classes-grid">
+    <div 
+      class="class-card"
+      *ngFor="let heroClass of classes"
+      [class.selected]="selectedClass?.id === heroClass.id"
+      (click)="selectClass(heroClass)"
+    >
+      <img [src]="heroClass.sprite" [alt]="heroClass.name" />
+      <h2>{{ heroClass.name }}</h2>
+      <p class="description">{{ heroClass.description }}</p>
+
+      <div class="stats">
+        <div class="stat-row">
+          <span class="stat-label">❤️ HP</span>
+          <span class="stat-value">{{ heroClass.baseStats.maxHp }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">⚔️ ATK</span>
+          <span class="stat-value">{{ heroClass.baseStats.attack }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">🛡️ DEF</span>
+          <span class="stat-value">{{ heroClass.baseStats.defense }}</span>
+        </div>
+        <div class="stat-row">
+          <span class="stat-label">✨ MAG</span>
+          <span class="stat-value">{{ heroClass.baseStats.magic }}</span>
+        </div>
+      </div>
+
+      <div class="moveset">
+        <div class="moveset-title">STARTING MOVES</div>
+        <div class="moves-list">
+          <span class="move-tag" *ngFor="let move of heroClass.defaultMoves">
+            {{ move.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="confirm-section">
+    <button 
+      class="confirm-btn"
+      [disabled]="!selectedClass || isLoading"
+      (click)="confirmSelection()"
+    >
+      {{ isLoading ? 'LOADING...' : (selectedClass ? 'BEGIN ADVENTURE AS ' + selectedClass.name.toUpperCase() : 'SELECT A HERO') }}
+    </button>
+  </div>
+</div>

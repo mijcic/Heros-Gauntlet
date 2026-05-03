@@ -1,0 +1,14 @@
+<button class="back-btn" (click)="onClick()" title="Back">
+  ⬅
+</button>
+
+<div class="back-confirm-overlay" *ngIf="showConfirm">
+  <div class="back-confirm-modal">
+    <h3>Hold on!</h3>
+    <p>{{ confirmMessage }}</p>
+    <div class="back-confirm-buttons">
+      <button class="confirm-yes" (click)="confirmYes()">Yes, go back</button>
+      <button class="confirm-no" (click)="confirmNo()">Stay</button>
+    </div>
+  </div>
+</div>
