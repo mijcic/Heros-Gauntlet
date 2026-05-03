@@ -287,9 +287,3 @@ For a production deployment, the JWT secret would come from a secrets manager ra
 - **One save slot per user** — no support for multiple parallel runs
 
 These were conscious trade-offs for delivery scope. None affect the core gameplay experience.
-
----
-
-## 📝 License
-
-ISC
