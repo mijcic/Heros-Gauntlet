@@ -1,7 +1,11 @@
+<app-back-button to="/"></app-back-button>
+
+<button class="save-exit-btn-overview" (click)="saveAndExit()" title="Save & Exit">
+  💾
+</button>
+
 <div class="map">
   <h2>Run Overview</h2>
-
-  
 
   <div class="monsters">
     <div
@@ -11,11 +15,8 @@
       (click)="selectMonster(i)"
     >
       <img [src]="m.sprite" />
-
       <div class="lock" *ngIf="i > unlockedIndex">🔒</div>
-
       <h3>{{ m.name }}</h3>
-
       <div class="hp">
         HP: {{ m.hp }}
       </div>
@@ -23,11 +24,9 @@
   </div>
 
   <div class="equipped-section">
-
     <h3>Equipped Moves</h3>
 
     <div class="moves-row">
-
       <div 
         class="move-card"
         *ngFor="let move of equippedMoves"
@@ -35,7 +34,6 @@
         <div class="move-name">
           {{ move.name }}
         </div>
-
         <div class="move-type" [class.magic]="move.type === 'magic'">
           {{ move.type }}
         </div>
@@ -43,9 +41,32 @@
 
     </div>
 
-    <button class="manage-btn" (click)="openMoveManager()">
-      MANAGE MOVES
-    </button>
+    <div class="manage-btn-wrapper">
+      <button class="manage-btn" (click)="openMoveManager()">
+        MANAGE MOVES
+      </button>
+      <span class="new-moves-indicator" *ngIf="hasNewMoves">!</span>
+    </div>
+  </div>
+</div>
 
+<div class="env-overlay" *ngIf="showEnvironmentChoice">
+  <div class="env-modal">
+    <h2>Choose Battle Environment</h2>
+    <p class="env-subtitle">Each environment affects the battle differently</p>
+    
+    <div class="env-grid">
+      <div 
+        class="env-card" 
+        *ngFor="let env of environments"
+        (click)="confirmEnvironment(env)"
+      >
+        <img [src]="env.sprite" [alt]="env.name" />
+        <h3>{{ env.name }}</h3>
+        <p class="env-desc">{{ env.description }}</p>
+      </div>
+    </div>
+
+    <button class="env-cancel" (click)="cancelEnvironmentChoice()">Cancel</button>
   </div>
 </div>

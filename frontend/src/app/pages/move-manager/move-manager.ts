@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
+import { BackButton } from '../../components/back-button/back-button';
 
 @Component({
   selector: 'app-move-manager',
-  imports: [CommonModule],
+  imports: [CommonModule, BackButton],
   templateUrl: './move-manager.html',
   styleUrl: './move-manager.css',
 })
@@ -14,9 +15,21 @@ export class MoveManager {
   learnedMoves: any[] = [];
   equippedMoves: any[] = [];
 
+  hoveredMove: any = null;
+
   ngOnInit() {
-    this.learnedMoves = JSON.parse(localStorage.getItem('learnedMoves') || '[]');
-    this.equippedMoves = JSON.parse(localStorage.getItem('equippedMoves') || '[]');
+    const learned = JSON.parse(localStorage.getItem('learnedMoves') || '[]');
+    const equipped = JSON.parse(localStorage.getItem('equippedMoves') || '[]');
+
+    const all = [...learned];
+    for (const move of equipped) {
+      if (!all.some((m: any) => m.name === move.name)) {
+        all.push(move);
+      }
+    }
+
+    this.learnedMoves = all;
+    this.equippedMoves = equipped;
   }
 
   toggleMove(move: any) {

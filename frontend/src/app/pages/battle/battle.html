@@ -1,97 +1,227 @@
- <div class="battle-page" *ngIf="hero && monster">
+<app-back-button 
+  to="/run-overview" 
+  [confirm]="true"
+  confirmMessage="Your battle progress will be lost. Are you sure?">
+</app-back-button>
 
-  <div class="hud">
-    <div class="hud-side">
-      <div class="hp-bar">
-        <div
-          class="hp-fill"
-          [ngClass]="getHpClass(hero)"
-          [style.width.%]="(hero.hp / hero.maxHp) * 100"
-        ></div>
+<div class="battle-page" *ngIf="hero && monster"
+[style.background-image]="currentEnvironment ? 'url(' + currentEnvironment.sprite + ')' : 'url(/assets/pictures/background.png)'">
+
+  <div class="battle-main">
+
+    <div class="hud">
+      <div class="hud-side">
+        <div class="hp-bar">
+          <div
+            class="hp-fill"
+            [ngClass]="getHpClass(hero)"
+            [style.width.%]="(hero.hp / hero.maxHp) * 100"
+          ></div>
+        </div>
+        <div class="hp-text left">
+          {{ hero.hp }} / {{ hero.maxHp }}
+        </div>
       </div>
-      <div class="hp-text left">
-        {{ hero.hp }} / {{ hero.maxHp }}
+
+      <div class="hud-side">
+        <div class="hp-bar">
+          <div
+            class="hp-fill"
+            [ngClass]="getHpClass(monster)"
+            [style.width.%]="(monster.hp / monster.maxHp) * 100"
+          ></div>
+        </div>
+        <div class="hp-text right">
+          {{ monster.hp }} / {{ monster.maxHp }}
+        </div>
       </div>
     </div>
 
-    <div class="hud-side">
-      <div class="hp-bar">
-        <div
-          class="hp-fill"
-          [ngClass]="getHpClass(monster)"
-          [style.width.%]="(monster.hp / monster.maxHp) * 100"
-        ></div>
-      </div>
-      <div class="hp-text right">
-        {{ monster.hp }} / {{ monster.maxHp }}
+    <div class="damage-layer">
+      <div
+        *ngFor="let d of damageNumbers"
+        class="damage"
+        [class.hero]="d.x === 'hero'"
+        [class.monster]="d.x === 'monster'"
+        [class.positive]="d.value > 0"
+        [class.negative]="d.value <= 0"
+      >
+        {{ d.value > 0 ? '+' + d.value : d.value }}
       </div>
     </div>
-  </div>
 
-  <div class="damage-layer">
+    <div class="projectile-layer" *ngIf="projectile">
+      <img 
+        [src]="projectile.iconPath" 
+        class="projectile"
+        [class.hero-to-monster]="projectile.direction === 'hero-to-monster'"
+        [class.monster-to-hero]="projectile.direction === 'monster-to-hero'"
+        [class.self-hero]="projectile.direction === 'self-hero'"
+        [class.self-monster]="projectile.direction === 'self-monster'"
+        alt="move"
+      />
+    </div>
+
+    <div class="arena">
+      <div class="side hero-side">
+        <img 
+          [src]="hero.sprite" 
+          [class.shake]="shakeHero"
+        />
+        <h2>{{ hero.name }}</h2>
+      </div>
+
+      <div class="side monster-side">
+        <div class="enemy-move" *ngIf="enemyMoveName">
+          {{ enemyMoveName }}
+        </div>
+        <img 
+          [src]="monster.sprite" 
+          [class.shake]="shakeMonster"
+        />
+        <h2>{{ monster.name }}</h2>
+      </div>
+    </div>
+
     <div
-      *ngFor="let d of damageNumbers"
-      class="damage"
-      [class.hero]="d.x === 'hero'"
-      [class.monster]="d.x === 'monster'"
+      class="turn-indicator"
+      [class.hero]="currentTurn === 'hero'"
+      [class.monster]="currentTurn === 'monster'"
     >
-      {{ d.value }}
-    </div>
-  </div>
-
-  <div class="arena">
-    <div class="side hero-side">
-      <img 
-        [src]="hero.sprite" 
-        [class.shake]="shakeHero"
-      />
-      <h2>{{ hero.name }}</h2>
+      {{ currentTurn === 'hero' ? 'YOUR TURN' : 'ENEMY TURN' }}
     </div>
 
-    <div class="side monster-side">
-      <div class="enemy-move" *ngIf="enemyMoveName">
-        {{ enemyMoveName }}
+    <div class="levelup-popup" *ngIf="showLevelUp">
+      ⬆️ LEVEL UP! You are now level {{ hero.level }}!
+    </div>
+
+    <div class="moves">
+      <div class="move-wrapper" *ngFor="let move of hero.moves">
+        <button 
+          (click)="playMove(move)"
+          (mouseenter)="hoveredMove = move"
+          (mouseleave)="hoveredMove = null"
+        >
+          {{ move.name }}
+        </button>
+        <div class="move-tooltip" *ngIf="hoveredMove === move">
+          <p class="tooltip-desc">{{ move.description }}</p>
+          <p class="tooltip-type">{{ move.type }} · {{ move.effect }}</p>
+        </div>
       </div>
-      <img 
-        [src]="monster.sprite" 
-        [class.shake]="shakeMonster"
-      />
-      <h2>{{ monster.name }}</h2>
     </div>
-  </div>
 
-  <div
-    class="turn-indicator"
-    [class.hero]="currentTurn === 'hero'"
-    [class.monster]="currentTurn === 'monster'"
-  >
-    {{ currentTurn === 'hero' ? 'YOUR TURN' : 'ENEMY TURN' }}
-  </div>
+    <div class="level-ring-local">
+      <svg viewBox="0 0 100 100">
+        <circle cx="50" cy="50" r="45" class="ring-bg" />
+        <circle 
+          cx="50" cy="50" r="45" 
+          class="ring-progress"
+          [attr.stroke-dasharray]="getCircumference()"
+          [attr.stroke-dashoffset]="getDashOffset()"
+        />
+      </svg>
+      <div class="level-number">{{ hero.level }}</div>
+      <div class="xp-tooltip">{{ hero.xp }} / {{ getXpForNextLevel(hero.level) }} XP</div>
+    </div>
 
-  <div class="moves">
-    <button *ngFor="let move of hero.moves" (click)="playMove(move)">
-      {{ move.name }}
+    <button class="save-exit-btn" (click)="saveAndExit()" *ngIf="!showDefeat && !showReward" title="Save & Exit">
+      💾
     </button>
+
   </div>
+
+  <div class="env-banner" *ngIf="currentEnvironment">
+    <span class="env-banner-name">{{ currentEnvironment.name }}</span>
+    <span class="env-banner-desc">{{ currentEnvironment.description }}</span>
+  </div>
+
+  <aside class="battle-log">
+    <h3>Battle Log</h3>
+    <div class="battle-log-messages">
+      <div class="log-empty" *ngIf="battleLog.length === 0">
+        Battle hasn't started yet...
+      </div>
+      <div class="log-entry" *ngFor="let entry of battleLog">
+        {{ entry }}
+      </div>
+    </div>
+  </aside>
 
 </div>
 
 <div class="reward-overlay" *ngIf="showReward">
-
   <div class="reward-popup">
-
     <h2>VICTORY!</h2>
-
     <p>You learned a new move:</p>
-
     <div class="move-card">
       {{ rewardMove?.name }}
     </div>
-
     <button (click)="closeReward()">
       CONTINUE
     </button>
-
   </div>
+</div>
 
+<div class="reward-overlay" *ngIf="showStatChoice">
+  <div class="reward-popup">
+    <h2>LEVEL UP!</h2>
+    <p>Choose a stat to increase:</p>
+    <div class="stat-choices">
+      <button (click)="chooseStat('attack')">
+        ⚔️ Attack +3
+      </button>
+      <button (click)="chooseStat('defense')">
+        🛡️ Defense +3
+      </button>
+      <button (click)="chooseStat('maxHp')">
+        ❤️ Health +15
+      </button>
+      <button (click)="chooseStat('magic')">
+        ✨ Magic +3
+      </button>
+    </div>
+  </div>
+</div>
+
+<div class="reward-overlay" *ngIf="showDefeat">
+  <div class="reward-popup defeat">
+    <h2>DEFEAT</h2>
+    <p>You were defeated by {{ monster?.name }}.</p>
+    <p class="defeat-hint">Train more, swap your moves, or try again.</p>
+    <button (click)="closeDefeat()">
+      RETURN TO MAP
+    </button>
+  </div>
+</div>
+
+<div class="reward-overlay" *ngIf="showRunComplete">
+  <div class="reward-popup run-complete">
+    <h2>🏆 GAUNTLET COMPLETE 🏆</h2>
+    <p class="complete-subtitle">You defeated all the monsters!</p>
+    
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="stat-label">FINAL LEVEL</div>
+        <div class="stat-value">{{ hero?.level }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">MOVES LEARNED</div>
+        <div class="stat-value">{{ movesLearnedCount }}</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-label">BATTLES FOUGHT</div>
+        <div class="stat-value">{{ battlesFought }}</div>
+      </div>
+    </div>
+
+    <div class="next-run-hint" *ngIf="hero">
+      Next run will be <strong>{{ ((1 + (runsCompleted + 1) * 0.3) * 100 - 100).toFixed(0) }}%</strong> harder!
+    </div>
+
+    <div class="run-complete-buttons">
+      <button class="btn-primary" (click)="continueFighting()">CONTINUE FIGHTING</button>
+      <button class="btn-secondary" (click)="startOver()">START OVER</button>
+    </div>
+  </div>
 </div>

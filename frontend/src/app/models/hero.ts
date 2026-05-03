@@ -1,3 +1,5 @@
+import { Move } from "./move";
+
 export interface Hero {
   name: string;
   hp: number;
@@ -5,6 +7,12 @@ export interface Hero {
   attack: number;
   defense: number;
   magic: number;
-  moves: any[];
+  level: number;
+  xp: number;
+  moves: Move[];
   sprite: string;
+  learnedMoves?: Move[];
+  unlockedIndex?: number;
+  runsCompleted?: number;
+  heroClass?: string;
 }

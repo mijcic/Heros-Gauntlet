@@ -1,8 +1,60 @@
 <div class="main-menu">
-  <h1>GAUNTLET OF HEROES</h1>
-  
-  <div class="menu-buttons">
-    <button (click)="startGame()">Start New Run</button>
-    <button (click)="exitGame()">Exit Game</button>
+  <h1 *ngIf="!showLogin && !showRegister && !showResumePrompt">HERO'S GAUNTLET</h1>
+
+  <div class="menu-buttons" *ngIf="!showLogin && !showRegister && !showResumePrompt">
+    <button (click)="openLogin()">Login</button>
+    <button (click)="openRegister()">Register</button>
+    <button (click)="startAsGuest()">Play as Guest</button>
+  </div>
+
+  <div class="auth-form" *ngIf="showLogin && !isLoggingIn && !loginSuccess && !showResumePrompt">
+    <h2>Login</h2>
+    <input type="text" placeholder="Username" [(ngModel)]="username" />
+    <input type="password" placeholder="Password" [(ngModel)]="password" />
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <p class="success" *ngIf="successMessage">{{ successMessage }}</p>
+    <button (click)="login()">Login</button>
+    <button class="secondary" (click)="closeModal()">Back</button>
+  </div>
+
+  <div class="auth-status" *ngIf="isLoggingIn && !loginSuccess">
+    <div class="spinner"></div>
+    <p>Logging in...</p>
+  </div>
+
+  <div class="auth-status success-state" *ngIf="loginSuccess">
+    <div class="checkmark">✓</div>
+    <h2>Welcome back!</h2>
+    <p>Loading your adventure...</p>
+  </div>
+
+  <div class="auth-form" *ngIf="showRegister && !showResumePrompt">
+    <h2>Register</h2>
+    <input 
+      type="text" 
+      placeholder="Username" 
+      [(ngModel)]="username"
+    />
+    <input 
+      type="password" 
+      placeholder="Password" 
+      [(ngModel)]="password"
+    />
+    <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+    <button (click)="register()">Register</button>
+    <button class="secondary" (click)="closeModal()">Back</button>
+  </div>
+
+
+  <div class="modal-overlay" *ngIf="showResumePrompt">
+    <div class="modal">
+      <h2>Saved Run Found</h2>
+      <p>You have a saved run from {{ savedRunInfo?.savedAt | date:'medium' }}.</p>
+      <p>Do you want to continue or start a new run?</p>
+      <div class="modal-buttons">
+        <button (click)="resumeRun()">Continue</button>
+        <button (click)="discardSaveAndStartNew()">New Run</button>
+      </div>
+    </div>
   </div>
 </div>
